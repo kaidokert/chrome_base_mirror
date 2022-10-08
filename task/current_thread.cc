@@ -115,7 +115,7 @@ bool CurrentThread::operator==(const CurrentThread& other) const {
   return current_ == other.current_;
 }
 
-#if !BUILDFLAG(IS_NACL)
+#if !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_STARBOARD)
 
 //------------------------------------------------------------------------------
 // CurrentUIThread

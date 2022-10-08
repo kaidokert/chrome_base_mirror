@@ -39,7 +39,7 @@ using MessagePumpForUI = MessagePumpForUI;
 // be represented by a plain MessagePump: MessagePumpMac::Create() must be used
 // to instantiate the right impl.
 using MessagePumpForUI = MessagePump;
-#elif BUILDFLAG(IS_NACL) || BUILDFLAG(IS_AIX)
+#elif BUILDFLAG(IS_NACL) || BUILDFLAG(IS_AIX) || BUILDFLAG(IS_STARBOARD)
 // Currently NaCl and AIX don't have a MessagePumpForUI.
 // TODO(abarth): Figure out if we need this.
 #elif defined(USE_GLIB)

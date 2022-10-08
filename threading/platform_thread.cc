@@ -45,7 +45,7 @@ void PlatformThread::SetCurrentThreadType(ThreadType thread_type) {
   if (CurrentIOThread::IsSet()) {
     message_pump_type = MessagePumpType::IO;
   }
-#if !BUILDFLAG(IS_NACL)
+#if !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_STARBOARD)
   else if (CurrentUIThread::IsSet()) {
     message_pump_type = MessagePumpType::UI;
   }

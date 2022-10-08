@@ -204,7 +204,7 @@ class BASE_EXPORT CurrentThread {
   raw_ptr<sequence_manager::internal::SequenceManagerImpl> current_;
 };
 
-#if !BUILDFLAG(IS_NACL)
+#if !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_STARBOARD)
 
 // UI extension of CurrentThread.
 class BASE_EXPORT CurrentUIThread : public CurrentThread {
