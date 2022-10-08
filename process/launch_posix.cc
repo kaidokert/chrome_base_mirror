@@ -201,6 +201,8 @@ typedef std::unique_ptr<DIR, ScopedDIRClose> ScopedDIR;
 
 #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_AIX)
 static const char kFDDir[] = "/proc/self/fd";
+#elif BUILDFLAG(IS_STARBOARD) 
+static const char kFDDir[] = "/proc/self/fd";
 #elif BUILDFLAG(IS_SOLARIS)
 static const char kFDDir[] = "/dev/fd";
 #elif BUILDFLAG(IS_FREEBSD)

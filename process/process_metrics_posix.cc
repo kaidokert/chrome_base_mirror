@@ -45,6 +45,8 @@ ProcessMetrics::~ProcessMetrics() = default;
 
 #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 static const rlim_t kSystemDefaultMaxFds = 8192;
+#elif BUILDFLAG(IS_STARBOARD)
+static const rlim_t kSystemDefaultMaxFds = 256;
 #elif BUILDFLAG(IS_APPLE)
 static const rlim_t kSystemDefaultMaxFds = 256;
 #elif BUILDFLAG(IS_SOLARIS)
