@@ -90,6 +90,9 @@ dep_libevent = !is_fuchsia && !is_win && !is_mac && !is_nacl
 # Determines whether message_pump_libevent should be used.
 use_libevent = dep_libevent && !is_ios
 
+# Determines if OS port is able to launch and kill processes
+is_single_process = is_ios || is_nacl
+
 if (is_android) {
   import("//build/config/android/rules.gni")
 }
@@ -1987,6 +1990,31 @@ mixed_component("base") {
     public_deps += [ "//third_party/boringssl" ]
   }
 
+  if (is_single_process) {
+    sources -= [
+      "memory/discardable_shared_memory.cc",
+      "memory/discardable_shared_memory.h",
+      "process/kill.cc",
+      "process/kill.h",
+      "process/kill_posix.cc",
+      "process/launch.cc",
+      "process/launch.h",
+      "process/launch_posix.cc",
+      "process/memory.cc",
+      "process/memory.h",
+      "process/process_iterator.cc",
+      "process/process_iterator.h",
+      "process/process_metrics.cc",
+      "process/process_metrics_posix.cc",
+      "process/process_posix.cc",
+      "sync_socket_posix.cc",
+    ]
+    sources += [
+      "process/memory_stubs.cc",
+      "process/process_stubs.cc",
+    ]
+  }
+
   # NaCl.
   if (is_nacl) {
     # Explicitly include the linux file.
@@ -1994,7 +2022,6 @@ mixed_component("base") {
       "debug/stack_trace_nacl.cc",
       "files/file_path_watcher_stub.cc",
       "memory/page_size_nacl.cc",
-      "process/process_stubs.cc",
       "profiler/stack_sampler_posix.cc",
       "sync_socket_nacl.cc",
       "system/sys_info_nacl.cc",
@@ -2026,8 +2053,6 @@ mixed_component("base") {
       "memory/discardable_memory.h",
       "memory/discardable_memory_allocator.cc",
       "memory/discardable_memory_allocator.h",
-      "memory/discardable_shared_memory.cc",
-      "memory/discardable_shared_memory.h",
       "memory/madv_free_discardable_memory_allocator_posix.cc",
       "memory/madv_free_discardable_memory_allocator_posix.h",
       "memory/madv_free_discardable_memory_posix.cc",
@@ -2037,23 +2062,10 @@ mixed_component("base") {
       "native_library_posix.cc",
       "path_service.cc",
       "posix/unix_domain_socket.cc",
-      "process/kill.cc",
-      "process/kill.h",
-      "process/kill_posix.cc",
-      "process/launch.cc",
-      "process/launch.h",
-      "process/launch_posix.cc",
-      "process/memory.cc",
-      "process/memory.h",
-      "process/process_iterator.cc",
-      "process/process_iterator.h",
       "process/process_metrics.cc",
-      "process/process_metrics_posix.cc",
-      "process/process_posix.cc",
       "profiler/module_cache_posix.cc",
       "rand_util_posix.cc",
       "scoped_native_library.cc",
-      "sync_socket_posix.cc",
       "system/sys_info.cc",
       "system/sys_info_posix.cc",
       "task/thread_pool/initialization_util.cc",
@@ -2220,22 +2232,7 @@ mixed_component("base") {
     sources -= [
       "files/file_path_watcher.cc",
       "files/file_path_watcher.h",
-      "memory/discardable_shared_memory.cc",
-      "memory/discardable_shared_memory.h",
-      "process/kill.cc",
-      "process/kill.h",
-      "process/kill_posix.cc",
-      "process/launch.cc",
-      "process/launch.h",
-      "process/launch_posix.cc",
-      "process/memory.cc",
-      "process/memory.h",
-      "process/process_iterator.cc",
-      "process/process_iterator.h",
-      "process/process_metrics_posix.cc",
-      "process/process_posix.cc",
       "sync_socket.h",
-      "sync_socket_posix.cc",
       "synchronization/waitable_event_watcher.h",
     ]
     sources += [
@@ -2274,8 +2271,6 @@ mixed_component("base") {
       "message_loop/message_pump_mac.h",
       "message_loop/message_pump_mac.mm",
       "power_monitor/power_monitor_device_source_ios.mm",
-      "process/memory_stubs.cc",
-      "process/process_stubs.cc",
       "strings/sys_string_conversions_mac.mm",
       "synchronization/waitable_event_mac.cc",
       "system/sys_info_ios.mm",
@@ -3709,6 +3704,16 @@ test("base_unittests") {
     ]
   }
 
+  if (is_single_process) {
+    sources -= [
+      "memory/discardable_shared_memory_unittest.cc",
+      "process/memory_unittest.cc",
+      "process/process_unittest.cc",
+      "process/process_util_unittest.cc",
+      "sync_socket_unittest.cc",
+    ]
+  }
+
   if (is_ios) {
     sources += [
       "ios/device_util_unittest.mm",
@@ -3724,11 +3729,6 @@ test("base_unittests") {
     # ios does not use test_launcher to run gtests.
     sources -= [
       "files/file_path_watcher_unittest.cc",
-      "memory/discardable_shared_memory_unittest.cc",
-      "process/memory_unittest.cc",
-      "process/process_unittest.cc",
-      "process/process_util_unittest.cc",
-      "sync_socket_unittest.cc",
       "synchronization/waitable_event_watcher_unittest.cc",
       "test/gtest_links_unittest.cc",
       "test/gtest_xml_unittest_result_printer_unittest.cc",
