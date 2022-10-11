@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: mirror
         id: mirror
-        uses: bridgelightcloud/github-mirror-action@v2
+        uses: kaidokert/github-mirror-action@v3
         with:
-          origin: ''
+          origin: 'https://chromium.googlesource.com/chromium/src/base'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
