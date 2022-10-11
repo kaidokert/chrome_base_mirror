@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: mirror
         id: mirror
-        uses: kaidokert/github-mirror-action@v3
+        uses: kaidokert/github-mirror-action@v4
         with:
           origin: 'https://chromium.googlesource.com/chromium/src/base'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
