@@ -30,7 +30,7 @@
 #include "base/threading/thread_restrictions.h"
 #include "build/build_config.h"
 
-#if !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_FUCHSIA) && !BUILDFLAG(IS_NACL)
+#if !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_FUCHSIA) && !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_STARBOARD)
 #include "base/posix/can_lower_nice_to.h"
 #endif
 
@@ -359,7 +359,7 @@ void PlatformThread::Detach(PlatformThreadHandle thread_handle) {
 
 // static
 bool PlatformThread::CanChangeThreadType(ThreadType from, ThreadType to) {
-#if BUILDFLAG(IS_NACL)
+#if BUILDFLAG(IS_NACL) || BUILDFLAG(IS_STARBOARD)
   return false;
 #else
   if (from >= to) {
@@ -378,7 +378,7 @@ namespace internal {
 
 void SetCurrentThreadTypeImpl(ThreadType thread_type,
                               MessagePumpType pump_type_hint) {
-#if BUILDFLAG(IS_NACL)
+#if BUILDFLAG(IS_NACL) || BUILDFLAG(IS_STARBOARD)
   NOTIMPLEMENTED();
 #else
   if (internal::SetCurrentThreadTypeForPlatform(thread_type, pump_type_hint))
@@ -402,7 +402,7 @@ void SetCurrentThreadTypeImpl(ThreadType thread_type,
 
 // static
 ThreadPriorityForTest PlatformThread::GetCurrentThreadPriorityForTest() {
-#if BUILDFLAG(IS_NACL)
+#if BUILDFLAG(IS_NACL) || BUILDFLAG(IS_STARBOARD)
   NOTIMPLEMENTED();
   return ThreadPriorityForTest::kNormal;
 #else

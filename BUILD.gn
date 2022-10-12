@@ -91,7 +91,7 @@ dep_libevent = !is_fuchsia && !is_win && !is_mac && !is_nacl
 use_libevent = dep_libevent && !is_ios
 
 # Determines if OS port is able to launch and kill processes
-is_single_process = is_ios || is_nacl
+is_single_process = is_ios || is_nacl || is_starboard
 
 if (is_android) {
   import("//build/config/android/rules.gni")
@@ -2095,6 +2095,10 @@ mixed_component("base") {
     # partition_alloc code if use_partition_alloc = false because no code uses
     # partition_alloc.
     public_deps += [ "allocator/partition_allocator:partition_alloc" ]
+  }
+
+  if (is_starboard) {
+    sources += [ "threading/platform_thread_starboard.cc" ]
   }
 
   # Windows.
