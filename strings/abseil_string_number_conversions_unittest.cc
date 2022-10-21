@@ -14,6 +14,7 @@
 
 namespace base {
 
+#if 0
 TEST(AbseilStringNumberConversionsTest, StringToUint128) {
   // Test cases adapted from `StringNumberConversionsTest.StringToUint64`.
   static const struct {
@@ -174,5 +175,7 @@ TEST(AbseilStringNumberConversionsTest, HexStringToUInt128) {
   EXPECT_FALSE(HexStringToUInt128(input_string, &output));
   EXPECT_EQ(0xc0ffeeU, output);
 }
+
+#endif
 
 }  // namespace base
