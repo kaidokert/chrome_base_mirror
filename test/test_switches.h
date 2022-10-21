@@ -43,6 +43,8 @@ extern const char kUiTestActionTimeout[];
 
 #if BUILDFLAG(IS_IOS)
 extern const char kEnableRunIOSUnittestsWithXCTest[];
+#endif
+#if BUILDFLAG(IS_IOS) || BUILDFLAG(IS_STARBOARD)
 extern const char kWriteCompiledTestsJsonToWritablePath[];
 #endif
 

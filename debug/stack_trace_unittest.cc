@@ -20,14 +20,14 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "testing/multiprocess_func_list.h"
 
-#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_IOS)
+#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 #include "base/test/multiprocess_test.h"
 #endif
 
 namespace base {
 namespace debug {
 
-#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_IOS)
+#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 typedef MultiProcessTest StackTraceTest;
 #else
 typedef testing::Test StackTraceTest;
@@ -157,7 +157,7 @@ TEST_F(StackTraceTest, DebugOutputToStreamWithNullPrefix) {
 #endif  // !defined(__UCLIBC__) && !defined(_AIX)
 
 #if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID)
-#if !BUILDFLAG(IS_IOS)
+#if !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 static char* newArray() {
   // Clang warns about the mismatched new[]/delete if they occur in the same
   // function.

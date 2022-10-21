@@ -28,7 +28,7 @@
 #include "testing/gtest/include/gtest/gtest.h"
 #include "testing/multiprocess_func_list.h"
 
-#if !BUILDFLAG(IS_IOS)
+#if !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 #include "base/process/launch.h"
 #endif
 
@@ -977,7 +977,7 @@ class FieldTrialListTest : public ::testing::Test {
   test::ScopedFeatureList scoped_feature_list_;
 };
 
-#if !BUILDFLAG(IS_IOS)
+#if !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 // LaunchOptions is not available on iOS.
 TEST_F(FieldTrialListTest, TestCopyFieldTrialStateToFlags) {
   test::ScopedFeatureList scoped_feature_list1;
@@ -1221,7 +1221,7 @@ TEST_F(FieldTrialListTest, DumpAndFetchFromSharedMemory) {
   EXPECT_EQ("value2", shm_params["key2"]);
 }
 
-#if !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_IOS)
+#if !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 MULTIPROCESS_TEST_MAIN(SerializeSharedMemoryRegionMetadata) {
   std::string serialized =
       CommandLine::ForCurrentProcess()->GetSwitchValueASCII("field_trials");

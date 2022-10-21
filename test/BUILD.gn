@@ -262,7 +262,7 @@ static_library("test_support") {
     ]
   }
 
-  if (!is_ios) {
+  if (!is_ios && !is_starboard) {
     sources += [
       "launcher/test_launcher.cc",
       "launcher/test_launcher.h",
@@ -273,6 +273,11 @@ static_library("test_support") {
       "launcher/test_results_tracker.cc",
       "launcher/unit_test_launcher.cc",
       "multiprocess_test.cc",
+    ]
+  }
+  if (is_starboard) {
+    sources += [
+      "launcher/unit_test_launcher_starboard.cc"
     ]
   }
 

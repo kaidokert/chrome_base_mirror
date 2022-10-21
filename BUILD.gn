@@ -2098,7 +2098,16 @@ mixed_component("base") {
   }
 
   if (is_starboard) {
-    sources += [ "threading/platform_thread_starboard.cc" ]
+    sources += [ 
+      "threading/platform_thread_starboard.cc",
+      "process/launch_starboard.cc",
+      "base_paths_starboard.cc",
+      "system/sys_info_starboard.cc",
+      "profiler/module_cache_starboard.cc"
+    ]
+    sources -= [
+      "profiler/module_cache_posix.cc"
+    ]
   }
 
   # Windows.
@@ -3718,6 +3727,17 @@ test("base_unittests") {
     ]
   }
 
+  if (is_starboard) {
+    sources -= [
+      "files/file_path_watcher_unittest.cc",
+      "synchronization/waitable_event_watcher_unittest.cc",
+      "test/gtest_links_unittest.cc",
+      "test/gtest_xml_unittest_result_printer_unittest.cc",
+      "test/launcher/test_launcher_unittest.cc",
+      "test/launcher/test_results_tracker_unittest.cc",
+    ]
+  }
+
   if (is_ios) {
     sources += [
       "ios/device_util_unittest.mm",
@@ -3907,7 +3927,7 @@ test("base_unittests") {
         [ "//build/config/fuchsia/test/logger.shard.test-cml" ]
   }
 
-  if (!is_fuchsia && !is_ios) {
+  if (!is_fuchsia && !is_ios && !is_starboard) {
     sources += [ "files/file_locking_unittest.cc" ]
   }
 

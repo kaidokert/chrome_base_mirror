@@ -130,6 +130,8 @@ const char switches::kUiTestActionTimeout[] = "ui-test-action-timeout";
 const char switches::kEnableRunIOSUnittestsWithXCTest[] =
     "enable-run-ios-unittests-with-xctest";
 // Write a compiled test json file to a location where writable.
+#endif
+#if BUILDFLAG(IS_IOS) || BUILDFLAG(IS_STARBOARD)
 const char switches::kWriteCompiledTestsJsonToWritablePath[] =
     "write-compiled-tests-json-to-writable-path";
 #endif

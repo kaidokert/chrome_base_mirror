@@ -330,6 +330,10 @@ TEST_F(TaskEnvironmentTest,
       TaskEnvironment::TimeSource::MOCK_TIME);
 }
 
+#if BUILDFLAG(IS_NACL) || BUILDFLAG(IS_STARBOARD)
+#define CurrentUIThread CurrentThread
+#endif
+
 // Verify that the right MessagePump is instantiated under each MainThreadType.
 // This avoids having to run all other TaskEnvironmentTests in every
 // MainThreadType which is redundant (message loop and message pump tests

@@ -3225,7 +3225,7 @@ TEST_F(FileUtilTest, ReadFileToStringWithUnknownFileSize) {
 #endif  // !BUILDFLAG(IS_WIN)
 
 #if !BUILDFLAG(IS_WIN) && !BUILDFLAG(IS_NACL) && !BUILDFLAG(IS_FUCHSIA) && \
-    !BUILDFLAG(IS_IOS)
+    !BUILDFLAG(IS_IOS) && !BUILDFLAG(IS_STARBOARD)
 #define ChildMain WriteToPipeChildMain
 #define ChildMainString "WriteToPipeChildMain"
 
